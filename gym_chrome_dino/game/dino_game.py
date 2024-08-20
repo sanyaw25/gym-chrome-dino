@@ -15,7 +15,7 @@ class DinoGame():
     def __init__(self, render=False, accelerate=False, autoscale=False):
         if not os.path.exists('chromedriver') and not os.path.exists('chromedriver.exe'):
             download_chromedriver()
-        chromedriver_path = './chromedriver'
+        
         options = Options()
         options.add_argument('--disable-infobars')
         options.add_argument('--mute-audio')
@@ -23,7 +23,9 @@ class DinoGame():
         options.add_argument('--window-size=800,600')
         if not render:
             options.add_argument('--headless')
-        self.driver = webdriver.Chrome(executable_path=chromedriver_path, options=options)
+        
+        # Initialize WebDriver without specifying executable_path
+        self.driver = webdriver.Chrome(options=options)
         # self.driver.get('chrome://dino')
         self.driver.get('https://elvisyjlin.github.io/t-rex-runner/')
         self.defaults = self.get_parameters()  # default parameters
@@ -72,7 +74,7 @@ class DinoGame():
         self.driver.close()
     
     def get_score(self):
-        digits = self.driver.execute_script('return Runner.instance_.distanceMeter.digits;');
+        digits = self.driver.execute_script('return Runner.instance_.distanceMeter.digits;')
         return int(''.join(digits))
     
     def get_canvas(self):
@@ -82,4 +84,4 @@ class DinoGame():
         self.driver.execute_script('Runner.{} = {};'.format(key, value))
     
     def restore_parameter(self, key):
-        self.set_parameter(self, key, self.defaults[key])
+        self.set_parameter(key, self.defaults[key])
