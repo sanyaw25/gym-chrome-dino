@@ -53,7 +53,8 @@ class DinoGame():
         return self.driver.execute_script('return Runner.instance_.playing;')
     
     def press_space(self):
-        return self.driver.find_element_by_tag_name('body').send_keys(Keys.SPACE)
+        body = self.driver.find_element(By.TAG_NAME, 'body')
+        body.send_keys(Keys.SPACE)
     
     def press_up(self):
         return self.driver.find_element_by_tag_name('body').send_keys(Keys.UP)
